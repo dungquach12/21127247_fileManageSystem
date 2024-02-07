@@ -3,7 +3,9 @@
 */
 
 #pragma once
-
 #include"bootSector.h"
+#include<vector>
 
-class 
+using std::vector;
+
+vector<uint32_t> getListClusters(uint32_t firstCluster, bootSector info);

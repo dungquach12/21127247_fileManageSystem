@@ -9,11 +9,10 @@ using std::cout;
 using std::endl;
 using std::string;
 
-int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[512]);
+int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[]);
 
 // convert from hex to char
 string hexToString(BYTE arr[], int startLoc, int size);
 
 // find first sector of kth cluster
 int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd);
-

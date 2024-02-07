@@ -1,6 +1,6 @@
 #include"Utility.h"
 
-int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[512])
+int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[])
 {
     int retCode = 0;
     DWORD bytesRead;
@@ -14,20 +14,23 @@ int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[512])
         0,                      // File attributes
         NULL);                  // Handle to template
 
-    if (device == INVALID_HANDLE_VALUE) // Open Error
+    if (device == INVALID_HANDLE_VALUE)
     {
         printf("CreateFile: %u\n", GetLastError());
         return 1;
     }
 
-    SetFilePointer(device, readPoint, NULL, FILE_BEGIN);//Set a Point to Read
+    SetFilePointer(device, readPoint * 512, NULL, FILE_BEGIN);
 
     if (!ReadFile(device, sector, 512, &bytesRead, NULL))
     {
         printf("ReadFile: %u\n", GetLastError());
-        return 1;
     }
-    printf("Success!\n");
+    else
+    {
+        printf("Success!\n");
+    }
+
     return 0;
 }
 
