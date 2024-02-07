@@ -1,21 +1,10 @@
 #pragma once
 
-#include<iostream>
-#include<string>
-#include<windows.h>
-#include<stdio.h>
-
-using std::cout;
-using std::endl;
-using std::string;
-
-int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[512]);
-
-// convert from hex to char
-std::string hexToString(BYTE arr[], int startLoc, int size);
+#include"Utility.h"
 
 // a struct to get info from boot sector
-struct bootSector {
+class bootSector {
+private:
     uint16_t BytesPerSec;
     int SecPerClus;
     uint16_t BootSecSize;
@@ -31,10 +20,16 @@ struct bootSector {
     uint32_t FirstRDETSector; // first sector of RDET
     uint32_t FirstDataSector; // first sector of Data
 
-    std::string FileSysType;
+    string FileSysType;
 
+public:
+    bootSector();
+ 
     void getInfo(BYTE arr[]);
     void showInfo();
+    bool isFAT32();
+
+    int showInfo(LPCWSTR diskLoc);
 };
 
 
