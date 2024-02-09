@@ -6,9 +6,9 @@
 class bootSector {
 private:
     uint16_t BytesPerSec;
-    int SecPerClus;
+    uint8_t SecPerClus;
     uint16_t BootSecSize;
-    int NumFatTable;
+    uint8_t NumFatTable;
     uint32_t TotalSector32;
     uint32_t FatTableSize32;
     uint32_t FirstRootCluster; // the first cluster of RDET(FAT32)
@@ -25,7 +25,9 @@ public:
     void showInfo();
 
     uint16_t getBytesPerSec();
+    uint8_t getSecPerClus();
     uint16_t getBootSecSize();
+    uint32_t getFirstDataSector();
     
     int getInfo(LPCWSTR diskLoc);
 };

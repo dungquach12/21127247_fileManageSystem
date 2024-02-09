@@ -26,10 +26,6 @@ int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[])
     {
         printf("ReadFile: %u\n", GetLastError());
     }
-    else
-    {
-        printf("Success!\n");
-    }
 
     return 0;
 }
@@ -44,4 +40,27 @@ string hexToString(BYTE arr[], int startLoc, int size) {
 
 int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd) {
     return FirstDataSector + (clusOrd - 2) * SecPerClus;
+}
+
+vector<uint32_t> getListClusters(uint32_t firstCluster, int BootSecSize, int BytesPerSec)
+{
+    vector<uint32_t> listClusters;
+    BYTE sectorFat[512];
+    uint32_t nextCluster = firstCluster;
+
+    do {
+        int thisFATSecNum = BootSecSize + nextCluster / ((BytesPerSec / 4) - 1);
+
+        int thisFATEntOffset = firstCluster * 4;
+        while (thisFATEntOffset >= 512) {
+            thisFATEntOffset -= 512;
+        }
+
+        listClusters.push_back(nextCluster);
+        ReadSector(L"\\\\.\\E:", thisFATSecNum, sectorFat);
+
+        memcpy(&nextCluster, sectorFat + thisFATEntOffset, 4);
+    } while (nextCluster != 0x0FFFFFFF && nextCluster != 0x0FFFFFF8);
+
+    return listClusters;
 }
