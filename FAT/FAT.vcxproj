@@ -128,12 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bootSector.cpp" />
+    <ClCompile Include="Directory.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bootSector.h" />
-    <ClInclude Include="Utility.h" />
+    <ClInclude Include="Directory.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
