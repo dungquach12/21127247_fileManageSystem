@@ -8,6 +8,28 @@ File::File() {
     this->fileSize = 0;
 }
 
+string clearExcessSpace(string str) {
+    int strLength = str.length();
+    for (int i = strLength; i >= 0; i--) {
+        if ((str[i] == 0x20) && i == 0) {
+            str.erase(i, 1);
+            strLength--;
+            break;
+        }
+        if (str[i] == 0x20 && str[i - 1] == 0x20) {
+            str.erase(i, 1);
+        }
+        if (str[i] <= 0) {
+            str.erase(i, 1);
+            strLength--;
+        }
+    }
+    str += '\0';
+    str.resize(strLength + 1);
+    str.shrink_to_fit();
+    return str;
+}
+
 int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
     vector<uint32_t> listcluster;
     listcluster = getListClusters(firstCluster, disk.getBootSecSize(), disk.getBytesPerSec());
@@ -81,6 +103,7 @@ int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
                     tmp.attribute = sector[k + 0xB + 32 * subEntryCount];
                     memcpy(&tmp.firstCluster, sector + k + 0x1A + 32 * subEntryCount, 2);
                     memcpy(&tmp.fileSize, sector + k + 0x1C + 32 * subEntryCount, 4);
+                    tmp.fileName = clearExcessSpace(tmp.fileName);
                     fileList.push_back(tmp);
 
                     k += (32 * subEntryCount);
@@ -97,6 +120,8 @@ int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
                     tmp.attribute = attribute;
                     memcpy(&tmp.firstCluster, sector + k + 0x1A, 2);
                     memcpy(&tmp.fileSize, sector + k + 0x1C, 4);
+                    tmp.fileName = clearExcessSpace(tmp.fileName);
+                    tmp.fileExtension = clearExcessSpace(tmp.fileExtension);
                     fileList.push_back(tmp);
                 }
             }
@@ -119,7 +144,8 @@ string convertAttrNumToAttrString(uint8_t attrNum) {
 }
 
 int interactFile(File theFile, bootSector disk) {
-    if (theFile.fileExtension.find("TXT") || theFile.fileName.find("txt")) {
+    if (theFile.fileExtension.find("TXT") != string::npos || theFile.fileName.find("txt") != string::npos) {
+        system("cls");
         vector<uint32_t> listcluster;
         listcluster = getListClusters(theFile.firstCluster, disk.getBootSecSize(), disk.getBytesPerSec());
         int size = theFile.fileSize;
