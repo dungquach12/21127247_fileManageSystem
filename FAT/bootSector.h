@@ -24,7 +24,7 @@ int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd);
 vector<uint32_t> getListClusters(uint32_t firstCluster, int BootSecSize, int BytesPerSec);
 
 // a struct to get info from boot sector
-class bootSector {
+class FATbootSector {
 private:
     uint16_t BytesPerSec;
     uint8_t SecPerClus;
@@ -40,7 +40,7 @@ private:
     string FileSysType;
 
 public:
-    bootSector();
+    FATbootSector();
  
     void getInfo(BYTE arr[]);
     void showInfo();
