@@ -13,7 +13,7 @@ public:
     File();
 };
 
-int getFiles(int firstCluster, bootSector disk, vector<File>& list);
+int getFiles(int firstCluster, FATbootSector disk, vector<File>& list);
 string convertAttrNumToAttrString(uint8_t attrNum);
-int interactFile(File theFile, bootSector disk);
-int Directory(bootSector disk, int cluster);
+int interactFile(File theFile, FATbootSector disk);
+int Directory(FATbootSector disk, int cluster);
