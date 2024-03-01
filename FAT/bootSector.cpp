@@ -64,7 +64,7 @@ vector<uint32_t> getListClusters(uint32_t firstCluster, int BootSecSize, int Byt
     return listClusters;
 }
 
-FATbootSector::FATbootSector() {
+bootSector::bootSector() {
     this->BytesPerSec = 0;
     this->SecPerClus = 0;
     this->BootSecSize = 0;
@@ -78,7 +78,7 @@ FATbootSector::FATbootSector() {
     this->FileSysType = ' ';
 }
 
-void FATbootSector::getInfo(BYTE arr[]) {
+void bootSector::getInfo(BYTE arr[]) {
     memcpy(&this->BytesPerSec, arr + 0xB, 2);
     this->SecPerClus = arr[0xD];
     memcpy(&this->BootSecSize, arr + 0xE, 2);
@@ -95,7 +95,7 @@ void FATbootSector::getInfo(BYTE arr[]) {
 }
 
 
-void FATbootSector::showInfo() {
+void bootSector::showInfo() {
     cout << "Loai Fat:                              " << this->FileSysType << endl;
     cout << "-------------------------------------------" << endl;
     cout << "So byte tren moi sector(byte):         " << this->BytesPerSec << endl;
@@ -109,27 +109,27 @@ void FATbootSector::showInfo() {
     cout << "Sector dau tien vung data:             " << this->FirstDataSector << endl;
 }
 
-uint16_t FATbootSector::getBytesPerSec() {
+uint16_t bootSector::getBytesPerSec() {
     return this->BytesPerSec;
 }
 
-uint8_t FATbootSector::getSecPerClus() {
+uint8_t bootSector::getSecPerClus() {
     return this->SecPerClus;
 }
 
-uint16_t FATbootSector::getBootSecSize() {
+uint16_t bootSector::getBootSecSize() {
     return this->BootSecSize;
 }
 
-uint32_t FATbootSector::getFirstRootClus() {
+uint32_t bootSector::getFirstRootClus() {
     return this->FirstRootCluster;
 }
 
-uint32_t FATbootSector::getFirstDataSector() {
+uint32_t bootSector::getFirstDataSector() {
     return this->FirstDataSector;
 }
 
-int FATbootSector::getInfo(LPCWSTR diskLoc) {
+int bootSector::getInfo(LPCWSTR diskLoc) {
     BYTE sector[512];
     if (!ReadSector(diskLoc, 0, sector)) {
         this->getInfo(sector);

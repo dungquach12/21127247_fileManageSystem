@@ -3,7 +3,7 @@
 int main(int argc, char** argv)
 {
     int option = 0;
-    FATbootSector disk1;
+    bootSector disk1;
     if (!disk1.getInfo(L"\\\\.\\E:")) {
 
 
@@ -31,3 +31,21 @@ int main(int argc, char** argv)
     cout << "Disk not exist!" << endl;
     return 1;
 }
+
+//string clearExcessSpace(string str) {
+//	int strLength = str.length();
+//	for (int i = strLength; i >= 0; i--) {
+//		if (str[i] == 0x20 && str[i - 1] == 0x20) {
+//			str.erase(i, 1);
+//			strLength--;
+//		}
+//	}
+//	str.resize(strLength);
+//	str.shrink_to_fit();
+//	return str;
+//}
+//
+//int main() {
+//	string str = "Test  string to   to  eo              ";
+//	cout << clearExcessSpace(str);
+//}
