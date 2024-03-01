@@ -30,7 +30,7 @@ string clearExcessSpace(string str) {
     return str;
 }
 
-int getFiles(int firstCluster, FATbootSector disk, vector<File>& list) {
+int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
     vector<uint32_t> listcluster;
     listcluster = getListClusters(firstCluster, disk.getBootSecSize(), disk.getBytesPerSec());
 
@@ -143,7 +143,7 @@ string convertAttrNumToAttrString(uint8_t attrNum) {
     return attrString;
 }
 
-int interactFile(File theFile, FATbootSector disk) {
+int interactFile(File theFile, bootSector disk) {
     if (theFile.fileExtension.find("TXT") != string::npos || theFile.fileName.find("txt") != string::npos) {
         system("cls");
         vector<uint32_t> listcluster;
@@ -173,7 +173,7 @@ int interactFile(File theFile, FATbootSector disk) {
     return 0;
 }
 
-int Directory(FATbootSector disk, int cluster) {
+int Directory(bootSector disk, int cluster) {
     vector<File> list;
     getFiles(cluster, disk, list);
 

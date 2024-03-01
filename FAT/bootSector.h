@@ -54,14 +54,4 @@ public:
     int getInfo(LPCWSTR diskLoc);
 };
 
-class NTFSbootSector {
-private:
-    string 
-    uint16_t BytesPerSec;
-    uint8_t SecPerClus;
-    
-public:
-
-};
-
 
