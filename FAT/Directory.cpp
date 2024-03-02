@@ -32,7 +32,7 @@ string clearExcessSpace(string str) {
 
 int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
     vector<uint32_t> listcluster;
-    listcluster = getListClusters(firstCluster, disk.getBootSecSize(), disk.getBytesPerSec());
+    listcluster = getListClusters(firstCluster, disk);
 
     int fileCount = 0;
     vector<File> fileList;
@@ -42,9 +42,9 @@ int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
 
         string reserveName;
         bool reserveState = FALSE;
-        for (int j = sectorNum; j < sectorNum + 32; j++) {
+        for (int j = sectorNum; j < sectorNum + disk.getSecPerClus(); j++) {
             BYTE sector[512];
-            ReadSector(L"\\\\.\\E:", j, sector);
+            ReadSector(disk.drive, j, sector);
 
             for (int k = 0; k < disk.getBytesPerSec(); k += 32) {
                 if (j == sectorNum && k == 0) {
@@ -147,13 +147,13 @@ int interactFile(File theFile, bootSector disk) {
     if (theFile.fileExtension.find("TXT") != string::npos || theFile.fileName.find("txt") != string::npos) {
         system("cls");
         vector<uint32_t> listcluster;
-        listcluster = getListClusters(theFile.firstCluster, disk.getBootSecSize(), disk.getBytesPerSec());
+        listcluster = getListClusters(theFile.firstCluster, disk);
         int size = theFile.fileSize;
         for (uint32_t i : listcluster) {
             int sectorNum = firstSectorofCluster(disk.getFirstDataSector(), disk.getSecPerClus(), i);
-            for (int j = sectorNum; j < sectorNum + 32; j++) {
+            for (int j = sectorNum; j < sectorNum + disk.getSecPerClus(); j++) {
                 BYTE sector[512];
-                ReadSector(L"\\\\.\\E:", j, sector);
+                ReadSector(disk.drive, j, sector);
                 if (size > 512) {
                     cout << hexToString(sector, 0, 511);
                     size -= 512;

@@ -42,21 +42,21 @@ int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd) {
     return FirstDataSector + (clusOrd - 2) * SecPerClus;
 }
 
-vector<uint32_t> getListClusters(uint32_t firstCluster, int BootSecSize, int BytesPerSec)
+vector<uint32_t> getListClusters(int firstCluster, bootSector disk)
 {
     vector<uint32_t> listClusters;
     BYTE sectorFat[512];
     uint32_t nextCluster = firstCluster;
 
     do {
-        int thisFATSecNum = BootSecSize + nextCluster / ((BytesPerSec / 4) - 1);
+        int thisFATSecNum = disk.getBootSecSize() + nextCluster / ((disk.getBytesPerSec() / 4) - 1);
 
         int thisFATEntOffset = nextCluster * 4;
         while (thisFATEntOffset >= 512) {
             thisFATEntOffset -= 512;
         }
         listClusters.push_back(nextCluster);
-        ReadSector(L"\\\\.\\E:", thisFATSecNum, sectorFat);
+        ReadSector(disk.drive, thisFATSecNum, sectorFat);
 
         memcpy(&nextCluster, sectorFat + thisFATEntOffset, 4);
     } while (nextCluster != 0x0FFFFFFF && nextCluster != 0x0FFFFFF8);
@@ -133,6 +133,7 @@ int bootSector::getInfo(LPCWSTR diskLoc) {
     BYTE sector[512];
     if (!ReadSector(diskLoc, 0, sector)) {
         this->getInfo(sector);
+        this->drive = diskLoc;
         return 0;
     }
     return 1;

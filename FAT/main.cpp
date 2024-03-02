@@ -2,9 +2,10 @@
 
 int main(int argc, char** argv)
 {
+    char diskName;
     int option = 0;
-    bootSector disk1;
-    if (!disk1.getInfo(L"\\\\.\\E:")) {
+    bootSector disk1;   
+    if (!disk1.getInfo(L"\\\\.\\F:")) {
 
 
         do {
