@@ -7,12 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "old source", "FAT\FAT.vcxpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "src2", "src2\src2.vcxproj", "{D2FC404E-8802-4EAD-863C-56D804E8FD9B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B1B5402-46D6-4027-9FCE-055ABF560FE8}"
-	ProjectSection(SolutionItems) = preProject
-		C:\Users\THINKPAD\Desktop\Explain.pdf = C:\Users\THINKPAD\Desktop\Explain.pdf
-		C:\Users\THINKPAD\Desktop\Project 1 - Quan ly he thong tap tin.pdf = C:\Users\THINKPAD\Desktop\Project 1 - Quan ly he thong tap tin.pdf
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

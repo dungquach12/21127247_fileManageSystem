@@ -18,7 +18,7 @@
     <ClCompile Include="FATbootSector.h">
       <Filter>Header Files</Filter>
     </ClCompile>
-    <ClCompile Include="bootSector.cpp">
+    <ClCompile Include="FATbootSector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
