@@ -127,7 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="bootSector.cpp" />
+    <ClCompile Include="FATbootSector.cpp" />
     <ClCompile Include="FATbootSector.h" />
     <ClCompile Include="fat32Dir.cpp" />
     <ClCompile Include="main.cpp" />
