@@ -1,4 +1,4 @@
-#include"Directory.h"
+#include"fat32Dir.h"
 
 File::File() {
     this->fileName = "";
@@ -8,7 +8,7 @@ File::File() {
     this->fileSize = 0;
 }
 
-int getFiles(int firstCluster, bootSector disk, vector<File>& list) {
+int getFiles(int firstCluster, FATbootSector disk, vector<File>& list) {
     vector<uint32_t> listcluster;
     listcluster = getListClusters(firstCluster, disk);
 
@@ -121,7 +121,7 @@ string convertAttrNumToAttrString(uint8_t attrNum) {
     return attrString;
 }
 
-int interactFile(File theFile, bootSector disk) {
+int interactFile(File theFile, FATbootSector disk) {
     if (theFile.fileExtension.find("TXT") != string::npos || theFile.fileName.find("txt") != string::npos) {
         system("cls");
         vector<uint32_t> listcluster;
@@ -140,7 +140,7 @@ int interactFile(File theFile, bootSector disk) {
                     cout << hexToString(sector, 0, size);
                     break;
                 }
-                
+
             }
         }
         cout << endl;
@@ -151,7 +151,7 @@ int interactFile(File theFile, bootSector disk) {
     return 0;
 }
 
-int Directory(bootSector disk, int cluster) {
+int Directory(FATbootSector disk, int cluster) {
     vector<File> list;
     getFiles(cluster, disk, list);
 

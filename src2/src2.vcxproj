@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{8dc96c69-5201-4258-9a0b-84707a5739b0}</ProjectGuid>
-    <RootNamespace>FAT</RootNamespace>
+    <ProjectGuid>{d2fc404e-8802-4ead-863c-56d804e8fd9b}</ProjectGuid>
+    <RootNamespace>src2</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>old source</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,12 +128,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="bootSector.cpp" />
-    <ClCompile Include="Directory.cpp" />
+    <ClCompile Include="FATbootSector.h" />
+    <ClCompile Include="fat32Dir.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NTFSbootSector.cpp" />
+    <ClCompile Include="NTFSbootSector.h" />
+    <ClCompile Include="ntfsDir.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bootSector.h" />
-    <ClInclude Include="Directory.h" />
+    <ClInclude Include="fat32Dir.h" />
+    <ClInclude Include="ntfsDir.h" />
+    <ClInclude Include="projectLib.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

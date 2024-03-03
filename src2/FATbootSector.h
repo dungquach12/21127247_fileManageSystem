@@ -1,16 +1,15 @@
 #pragma once
-
 #include<iostream>
 #include<windows.h>
 #include<stdio.h>
 #include<string>
 #include<vector>
 
-using std::cout;
-using std::cin;
-using std::endl;
-using std::string;
 using std::vector;
+using std::string;
+using std::cin;
+using std::cout;
+using std::endl;
 
 int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[]);
 
@@ -22,11 +21,13 @@ string clearExcessSpace(string str);
 // find first sector of kth cluster
 int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd);
 
-// a struct to get info from boot sector
-class bootSector {
+int isNTFSorFAT32(BYTE bootSector[]);
+
+class FATbootSector {
 private:
     uint16_t BytesPerSec;
     uint8_t SecPerClus;
+
     uint16_t BootSecSize;
     uint8_t NumFatTable;
     uint32_t TotalSector32;
@@ -37,11 +38,10 @@ private:
     uint32_t FirstDataSector; // first sector of Data
 
     string FileSysType;
-
 public:
     LPCWSTR drive;
-    bootSector();
- 
+    FATbootSector();
+
     void getInfo(BYTE arr[]);
     void showInfo();
 
@@ -50,9 +50,11 @@ public:
     uint16_t getBootSecSize();
     uint32_t getFirstRootClus();
     uint32_t getFirstDataSector();
-    
+
     int getInfo(LPCWSTR diskLoc);
 };
 
+
+
 // To traverse the FAT table and get the list of cluster of an entry
-vector<uint32_t> getListClusters(int firstCluster, bootSector disk);
+vector<uint32_t> getListClusters(int firstCluster, FATbootSector disk);

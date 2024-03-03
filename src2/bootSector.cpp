@@ -1,4 +1,4 @@
-#include"bootSector.h"
+#include"FATbootSector.h";
 
 int ReadSector(LPCWSTR  drive, int readPoint, BYTE sector[])
 {
@@ -64,7 +64,17 @@ int firstSectorofCluster(int FirstDataSector, int SecPerClus, int clusOrd) {
     return FirstDataSector + (clusOrd - 2) * SecPerClus;
 }
 
-vector<uint32_t> getListClusters(int firstCluster, bootSector disk)
+int isNTFSorFAT32(BYTE bootSector[]) {
+    string name = clearExcessSpace(hexToString(bootSector, 0x03, 8));
+    uint16_t FAT32sign;
+    memcpy(&FAT32sign, bootSector + 510, 2);
+    if (name.find("NTFS") != string::npos)
+        return 0;
+    if (FAT32sign == 0xAA55)
+        return 1;
+}
+
+vector<uint32_t> getListClusters(int firstCluster, FATbootSector disk)
 {
     vector<uint32_t> listClusters;
     BYTE sectorFat[512];
@@ -86,7 +96,7 @@ vector<uint32_t> getListClusters(int firstCluster, bootSector disk)
     return listClusters;
 }
 
-bootSector::bootSector() {
+FATbootSector::FATbootSector() {
     this->BytesPerSec = 0;
     this->SecPerClus = 0;
     this->BootSecSize = 0;
@@ -100,7 +110,7 @@ bootSector::bootSector() {
     this->FileSysType = ' ';
 }
 
-void bootSector::getInfo(BYTE arr[]) {
+void FATbootSector::getInfo(BYTE arr[]) {
     memcpy(&this->BytesPerSec, arr + 0xB, 2);
     this->SecPerClus = arr[0xD];
     memcpy(&this->BootSecSize, arr + 0xE, 2);
@@ -117,7 +127,7 @@ void bootSector::getInfo(BYTE arr[]) {
 }
 
 
-void bootSector::showInfo() {
+void FATbootSector::showInfo() {
     cout << "Loai Fat:                              " << this->FileSysType << endl;
     cout << "-------------------------------------------" << endl;
     cout << "So byte tren moi sector(byte):         " << this->BytesPerSec << endl;
@@ -131,27 +141,27 @@ void bootSector::showInfo() {
     cout << "Sector dau tien vung data:             " << this->FirstDataSector << endl;
 }
 
-uint16_t bootSector::getBytesPerSec() {
+uint16_t FATbootSector::getBytesPerSec() {
     return this->BytesPerSec;
 }
 
-uint8_t bootSector::getSecPerClus() {
+uint8_t FATbootSector::getSecPerClus() {
     return this->SecPerClus;
 }
 
-uint16_t bootSector::getBootSecSize() {
+uint16_t FATbootSector::getBootSecSize() {
     return this->BootSecSize;
 }
 
-uint32_t bootSector::getFirstRootClus() {
+uint32_t FATbootSector::getFirstRootClus() {
     return this->FirstRootCluster;
 }
 
-uint32_t bootSector::getFirstDataSector() {
+uint32_t FATbootSector::getFirstDataSector() {
     return this->FirstDataSector;
 }
 
-int bootSector::getInfo(LPCWSTR diskLoc) {
+int FATbootSector::getInfo(LPCWSTR diskLoc) {
     BYTE sector[512];
     if (!ReadSector(diskLoc, 0, sector)) {
         this->getInfo(sector);
